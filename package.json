@@ -1,0 +1,22 @@
+{
+  "name": "dra-web-lit-element",
+  "version": "0.0.0",
+  "repository": "Polymer/pwa-starter-kit",
+  "scripts": {
+    "start": "polymer serve",
+    "build": "polymer build",
+    "serve:static": "polymer serve --port 5000 build/es5-bundled"
+  },
+  "dependencies": {
+    "@polymer/app-layout": "^3.0.0",
+    "@polymer/lit-element": "^0.6.2",
+    "@polymer/polymer": "^3.1.0",
+    "@webcomponents/webcomponentsjs": "^2.0.0",
+    "pwa-helpers": "^0.9.0"
+  },
+  "devDependencies": {
+    "@polymer/test-fixture": "^4.0.2",
+    "polymer-cli": "^1.9.2",
+    "polyserve": "^0.27.0"
+  }
+}
