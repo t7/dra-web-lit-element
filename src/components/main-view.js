@@ -1,6 +1,6 @@
 // Import the LitElement base class and html helper function
 import {LitElement, html} from '@polymer/lit-element';
-import {waveSvg} from './my-svg'
+import {waveSvg, menuSvg} from './my-svg'
 
 // Extend the LitElement base class
 class MainView extends LitElement {
@@ -10,13 +10,77 @@ class MainView extends LitElement {
 
   static get properties() {
     return {
-      active: { type: Boolean }
+      active: { type: Boolean },
+      _drawerOpened: { type: Boolean },
+    }
+  }
+
+  _onMenuClick() {
+    this._drawerOpened = true;
+    this.dispatchEvent(new CustomEvent('menu-opened'));
+  }
+
+  _drawerOpenedChanged(e) {
+    if (this._drawerOpened && !e.target.opened) {
+      this._drawerOpened = false;
+      this.dispatchEvent(new CustomEvent('menu-closed'));
     }
   }
 
   render() {
     return html`
-      <style>
+      <style>      
+        .main-view {
+          width: 100vw;
+        }
+
+        .main-view:after {
+          background-color: var(--transparent-black);
+          content: '';
+          display: block;
+          height: 0vh;
+          position: absolute;
+          top: 0;
+          width: 100%;
+          opacity: 0;
+        }
+        
+        .main-view__header {
+          position: absolute;
+          left: 0;
+          width: 100vw;
+          text-align: right;
+          top: 0;
+          z-index: 1;
+        }
+        
+        .main-view__header__button {
+          border: none;
+          background: none;
+          cursor: pointer;
+          outline: none;
+          padding: 5px;
+        }
+        
+        .main-view__header__button svg {
+          fill: white;
+          height: 20px;
+        }
+        
+        app-drawer {
+           z-index: 2;
+          --app-drawer-scrim-background: rgba(0, 0, 0, 0);
+        }
+        
+        .drawer-list {
+          background-color: var(--transparent-black);
+          box-sizing: border-box;
+          width: 100%;
+          height: 100%;
+          padding: 24px;
+          position: relative;
+        }
+      
         .current-weather {
           background-color: black;
           background-position: center;
@@ -54,9 +118,20 @@ class MainView extends LitElement {
       </style>
 
       <!-- template content -->
-      <section class="current-weather" style="background-image: url(&quot;https://d13k13wj6adfdf.cloudfront.net/urban_areas/boston_web-550bb970ba.jpg&quot;);">
-        <div class="current-weather__wave">${waveSvg}</div>
-      </section>
+      <div class="main-view">
+        <section class="current-weather" style="background-image: url(&quot;https://d13k13wj6adfdf.cloudfront.net/urban_areas/boston_web-550bb970ba.jpg&quot;);">
+          <header class="main-view__header">
+            <button class="main-view__header__button" @click="${this._onMenuClick}">${menuSvg}</button>
+          </header>
+          <div class="current-weather__wave">${waveSvg}</div>
+        </section>
+        <app-drawer .opened="${this._drawerOpened}"
+          @opened-changed="${this._drawerOpenedChanged}"
+          align="end"
+         >
+          <nav class="drawer-list"> </nav>
+        </app-drawer>
+      </div>
     `;
   }
 }
