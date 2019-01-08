@@ -6,19 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="My App description">
 
-    <!--
-      The `<base>` tag below is present to support two advanced deployment options:
-      1) Differential serving. 2) Serving from a non-root path.
+    <style>
+      body {
+        margin: 0;
+      }
 
-      Instead of manually editing the `<base>` tag yourself, you should generally either:
-      a) Add a `basePath` property to the build configuration in your `polymer.json`.
-      b) Use the `--base-path` command-line option for `polymer build`.
-    -->
-    <base href="/">
+      .app {
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+        position: relative;
+      }
 
+      .content {
+        width: 100vw;
+      }
+
+      .content:after {
+        background-color: rgba(0, 0, 0, 0.8);
+        content: '';
+        display: block;
+        height: 0vh;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        opacity: 0;
+      }
+    </style>
   </head>
   <body>
-    <my-app appTitle="my app"></my-app>
+    <div class="app">
+      <div class="content">
+        <my-app appTitle="my app"></my-app>
+      </div>
+    </div>
     <noscript>
       Please enable JavaScript to view this website.
     </noscript>
