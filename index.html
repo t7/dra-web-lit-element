@@ -7,13 +7,29 @@
     <meta name="description" content="My App description">
 
     <style>
+      html {
+        --transparent-black: rgba(0, 0, 0, 0.8);
+
+        --background-red: {
+          background-color: red
+        }
+      }
+
       body {
         margin: 0;
+      }
+
+      .app {
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+        position: relative;
       }
     </style>
   </head>
   <body>
-    <my-app appTitle="my app"></my-app>
+    <my-app class="app"></my-app>
     <noscript>
       Please enable JavaScript to view this website.
     </noscript>

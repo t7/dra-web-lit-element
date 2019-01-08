@@ -1,24 +1,26 @@
 import { LitElement, html } from '@polymer/lit-element';
-import '@polymer/app-layout/app-drawer/app-drawer.js';
 import { installRouter } from 'pwa-helpers/router.js';
 
+import '@polymer/app-layout/app-drawer/app-drawer.js';
 import { menuSvg } from './my-svg.js';
 
 class MyApp extends LitElement {
   render() {
     // Anything that's related to rendering should be done in here.
     return html`
-    <style>
+    <style> 
       app-drawer {
         z-index: 2;
-      }  
+        
+        --app-drawer-scrim-background: rgba(0, 0, 0, 0);
+      }
         
       .main-view {
         width: 100vw;
       }
 
       .main-view:after {
-        background-color: rgba(0, 0, 0, 0.8);
+        background-color: var(--transparent-black);
         content: '';
         display: block;
         height: 0vh;
@@ -51,40 +53,37 @@ class MyApp extends LitElement {
       }
       
       .drawer-list {
+        background-color: var(--transparent-black);
         box-sizing: border-box;
         width: 100%;
         height: 100%;
         padding: 24px;
-        background: var(--app-drawer-background-color);
         position: relative;
       }
-
-      .drawer-list > a {
-        display: block;
-        text-decoration: none;
-        color: var(--app-drawer-text-color);
-        line-height: 40px;
-        padding: 0 24px;
+      
+      .page {
+       display: none;
       }
 
-      .drawer-list > a[selected] {
-        color: var(--app-drawer-selected-color);
+      .page[active] {
+        display: block;
       }
     </style>
     
     <div class="main-view">
       <header class="main-view__header">
-        <button class="main-view__header__button" @click="${this._openDrawer}">${menuSvg}</button>
+        <button class="main-view__header__button" @click="${this._onMenuClick}">${menuSvg}</button>
       </header>
       
-      <app-drawer .opened="${this._drawerOpened}"
+      <app-drawer .opened="${this._page === "settings"}"
+        @opened-changed="${this._drawerOpenedChanged}"
         align="end"
-        @opened-changed="${this._drawerOpenedChanged}">
-        <nav class="drawer-list"> </nav> 
+       >
+        <nav class="drawer-list"> </nav> e
       </app-drawer>
       <!-- Main content -->
       <main role="main">
-        <main-view class="page" ?active="${this._page === "main"}"></main-view>
+        <main-view class="page" ?active="${this._page === "main" || this._page === "settings"}"></main-view>
         <not-found-view class="page" ?active="${this._page === 'not-found'}"></not-found-view>
       </main>
     </div>
@@ -93,32 +92,31 @@ class MyApp extends LitElement {
 
   static get properties() {
     return {
-      _page: { type: String },
-      _drawerOpened: { type: Boolean },
+      _page: { type: String }
     }
   }
 
   constructor() {
     super();
-    this._drawerOpened = false;
   }
 
   firstUpdated() {
     installRouter((location) => this._locationChanged(location));
   }
 
-  _toggleDrawer(opened) {
-    if (opened !== this._drawerOpened) {
-      this._drawerOpened = opened;
+  _drawerOpenedChanged(e) {
+    if (!e.target.opened && this._page) {
+      this._updateLocation('/');
     }
   }
 
-  _openDrawer() {
-    this._toggleDrawer(true);
+  _updateLocation(newLocation) {
+    window.history.replaceState({}, '', newLocation);
+    this._locationChanged(newLocation);
   }
 
-  _drawerOpenedChanged(e) {
-    this._toggleDrawer(e.target.opened);
+  _onMenuClick() {
+    this._updateLocation('/settings');
   }
 
   _locationChanged() {
@@ -133,6 +131,9 @@ class MyApp extends LitElement {
         import('../components/main-view.js').then((module) => {
           // Put code in here that you want to run every time when navigating to main view
         });
+        break;
+      case 'settings':
+        import('../components/main-view.js');
         break;
       default:
         page = 'not-found';
