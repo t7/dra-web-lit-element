@@ -10,37 +10,10 @@
       body {
         margin: 0;
       }
-
-      .app {
-        -moz-osx-font-smoothing: grayscale;
-        -webkit-font-smoothing: antialiased;
-        font-family: 'Montserrat', sans-serif;
-        font-size: 16px;
-        position: relative;
-      }
-
-      .content {
-        width: 100vw;
-      }
-
-      .content:after {
-        background-color: rgba(0, 0, 0, 0.8);
-        content: '';
-        display: block;
-        height: 0vh;
-        position: absolute;
-        top: 0;
-        width: 100%;
-        opacity: 0;
-      }
     </style>
   </head>
   <body>
-    <div class="app">
-      <div class="content">
-        <my-app appTitle="my app"></my-app>
-      </div>
-    </div>
+    <my-app appTitle="my app"></my-app>
     <noscript>
       Please enable JavaScript to view this website.
     </noscript>
