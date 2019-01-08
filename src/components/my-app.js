@@ -1,24 +1,23 @@
 import { LitElement, html } from '@polymer/lit-element';
+import '@polymer/app-layout/app-drawer/app-drawer.js';
 import { installRouter } from 'pwa-helpers/router.js';
+
+import { menuSvg } from './my-svg.js';
 
 class MyApp extends LitElement {
   render() {
     // Anything that's related to rendering should be done in here.
     return html`
     <style>
-      .app {
-        -moz-osx-font-smoothing: grayscale;
-        -webkit-font-smoothing: antialiased;
-        font-family: 'Montserrat', sans-serif;
-        font-size: 16px;
-        position: relative;
-      }
-
-      .content {
+      app-drawer {
+        z-index: 2;
+      }  
+        
+      .main-view {
         width: 100vw;
       }
 
-      .content:after {
+      .main-view:after {
         background-color: rgba(0, 0, 0, 0.8);
         content: '';
         display: block;
@@ -28,31 +27,98 @@ class MyApp extends LitElement {
         width: 100%;
         opacity: 0;
       }
+      
+      .main-view__header {
+        position: absolute;
+        left: 0;
+        width: 100vw;
+        text-align: right;
+        top: 0;
+        z-index: 1;
+      }
+      
+      .main-view__header__button {
+        border: none;
+        background: none;
+        cursor: pointer;
+        outline: none;
+        padding: 5px;
+      }
+      
+      .main-view__header__button svg {
+        fill: white;
+        height: 20px;
+      }
+      
+      .drawer-list {
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        padding: 24px;
+        background: var(--app-drawer-background-color);
+        position: relative;
+      }
+
+      .drawer-list > a {
+        display: block;
+        text-decoration: none;
+        color: var(--app-drawer-text-color);
+        line-height: 40px;
+        padding: 0 24px;
+      }
+
+      .drawer-list > a[selected] {
+        color: var(--app-drawer-selected-color);
+      }
     </style>
-    <!-- Main content -->
-    <main role="main">
-      <div class="app">
-        <div class="content">
-          <main-view class="page" ?active="${this._page === "main"}"></main-view>
-          <not-found-view class="page" ?active="${this._page === 'not-found'}"></not-found-view>
-        </div>
-      </div>
-    </main>
+    
+    <div class="main-view">
+      <header class="main-view__header">
+        <button class="main-view__header__button" @click="${this._openDrawer}">${menuSvg}</button>
+      </header>
+      
+      <app-drawer .opened="${this._drawerOpened}"
+        align="end"
+        @opened-changed="${this._drawerOpenedChanged}">
+        <nav class="drawer-list"> </nav> 
+      </app-drawer>
+      <!-- Main content -->
+      <main role="main">
+        <main-view class="page" ?active="${this._page === "main"}"></main-view>
+        <not-found-view class="page" ?active="${this._page === 'not-found'}"></not-found-view>
+      </main>
+    </div>
     `;
   }
 
   static get properties() {
     return {
       _page: { type: String },
+      _drawerOpened: { type: Boolean },
     }
   }
 
   constructor() {
     super();
+    this._drawerOpened = false;
   }
 
   firstUpdated() {
     installRouter((location) => this._locationChanged(location));
+  }
+
+  _toggleDrawer(opened) {
+    if (opened !== this._drawerOpened) {
+      this._drawerOpened = opened;
+    }
+  }
+
+  _openDrawer() {
+    this._toggleDrawer(true);
+  }
+
+  _drawerOpenedChanged(e) {
+    this._toggleDrawer(e.target.opened);
   }
 
   _locationChanged() {
