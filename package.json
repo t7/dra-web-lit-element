@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "repository": "Polymer/pwa-starter-kit",
   "scripts": {
-    "start": "polymer serve",
+    "start": "npm run serve | npm run watch",
+    "serve": "polymer serve --port 8080",
+    "watch": "browser-sync start --proxy localhost:8080 --open --files \"src/**/*.js\"",
     "build": "polymer build",
     "serve:static": "polymer serve --port 5000 build/es5-bundled"
   },
@@ -16,6 +18,7 @@
   },
   "devDependencies": {
     "@polymer/test-fixture": "^4.0.2",
+    "browser-sync": "^2.26.3",
     "polymer-cli": "^1.9.2",
     "polyserve": "^0.27.0"
   }
