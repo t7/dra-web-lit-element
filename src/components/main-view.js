@@ -1,7 +1,8 @@
 // Import the LitElement base class and html helper function
 import {LitElement, html} from '@polymer/lit-element';
 import {menuSvg, waveSvg} from './svg-image';
-import '../components/current-weather';
+import './current-weather';
+import './forecast-weather';
 
 // Extend the LitElement base class
 class MainView extends LitElement {
@@ -29,6 +30,7 @@ class MainView extends LitElement {
           background-repeat: no-repeat;
           background-size: cover;
           padding: 4em 6em;
+          position: relative;
         }
         
         .main-view__container:before {
@@ -97,6 +99,7 @@ class MainView extends LitElement {
           <current-weather></current-weather>
           <div class="main-view__wave">${waveSvg}</div>
         </div>
+        <forecast-weather></forecast-weather>
         <app-drawer .opened="${this._drawerOpened}"
           @opened-changed="${this._drawerOpenedChanged}"
           align="end"
