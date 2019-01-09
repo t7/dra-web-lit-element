@@ -11,6 +11,16 @@ class CurrentWeather extends LitElement {
    * that uses LitElement as a base class.
    */
   render(){
+    const {
+      city,
+      region
+    } = this.location;
+    const {
+      shortForecast,
+      temperature,
+      temperatureUnit
+    } = this.weather;
+
     /**
      * `render` must return a lit-html `TemplateResult`.
      *
@@ -107,20 +117,26 @@ class CurrentWeather extends LitElement {
       <section class="current-weather">
         <div class="current-weather__container">
           <div class="current-weather__grid">
-            <span class="current-weather__location">City Name, <strong>Region</strong></span>
+            <span class="current-weather__location">${city}, <strong>${region}</strong></span>
             <span class="current-weather__date">date</span>
-            <span class="current-weather__forecast">shortForecast</span>
+            <span class="current-weather__forecast">${shortForecast}</span>
           </div>
           <span class="current-weather__temperature">
-            <weather-icon class="current-weather__temperature__icon">{}</weather-icon>
+            <weather-icon class="current-weather__temperature__icon">*</weather-icon>
             <span class="current-weather__temperature__value">
-              12
-              <sup class="current-weather__temperature__symbol">C</sup>
+              ${temperature}<sup class="current-weather__temperature__symbol">&deg;${temperatureUnit}</sup>
             </span>
           </span>
         </div>
       </section>
     `;
+  }
+
+  static get properties() {
+    return {
+      weather: { type: Object },
+      location: { type: Object }
+    }
   }
 }
 // Register the new element with the browser.

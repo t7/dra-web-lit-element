@@ -1,5 +1,5 @@
 import { WEATHER_API_HOST } from './api';
-import formatDate from 'date-fns/format';
+// import formatDate from 'date-fns/format';
 
 const iconRegex = /^https:\/\/api.weather.gov\/icons\/land\/(day|night)\/(.*?)(,|\/|\?)/;
 

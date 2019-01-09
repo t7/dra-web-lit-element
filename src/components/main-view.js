@@ -1,6 +1,12 @@
 // Import the LitElement base class and html helper function
 import {LitElement, html} from '@polymer/lit-element';
 import {menuSvg, waveSvg} from './svg-image';
+import {
+  getCurrentLocation
+} from '../utils/location'
+import  {
+  getCurrentWeatherForLocation
+} from "../utils/weather";
 import './current-weather';
 import './forecast-weather';
 
@@ -96,7 +102,7 @@ class MainView extends LitElement {
           <header class="main-view__header">
             <button class="main-view__header__button" @click="${this._onMenuClick}">${menuSvg}</button>
           </header>
-          <current-weather></current-weather>
+          <current-weather  .weather="${this.weather}" .location="${this.location}"></current-weather>
           <div class="main-view__wave">${waveSvg}</div>
         </div>
         <forecast-weather></forecast-weather>
@@ -114,11 +120,36 @@ class MainView extends LitElement {
     return this.active;
   }
 
+  updated(changedProperties) {
+    console.log(this.location, this.weather);
+  }
+
+  firstUpdated(changedProperties) {
+    this._getCurrentWeather();
+  }
+
   static get properties() {
     return {
       active: { type: Boolean },
+      weather: { type: Object },
+      location: { type: Object },
       _drawerOpened: { type: Boolean },
     }
+  }
+
+  constructor() {
+    super();
+    this.weather = {};
+    this.location = {};
+  }
+
+  _getCurrentWeather() {
+    getCurrentLocation().then((location) => {
+      this.location = location;
+      return getCurrentWeatherForLocation(location).then((weather) => {
+        this.weather = weather;
+      })
+    })
   }
 
   _onMenuClick() {
