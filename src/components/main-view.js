@@ -2,7 +2,8 @@
 import {LitElement, html} from '@polymer/lit-element';
 import {menuSvg, waveSvg} from './svg-image';
 import {
-  getCurrentLocation
+  getCurrentLocation,
+  getImageForLocation
 } from '../utils/location'
 import  {
   getCurrentWeatherForLocation
@@ -98,11 +99,15 @@ class MainView extends LitElement {
 
       <!-- template content -->
       <div class="main-view">
-        <div class="main-view__container" style="background-image: url(&quot;https://d13k13wj6adfdf.cloudfront.net/urban_areas/boston_web-550bb970ba.jpg&quot;);">
+        <div class="main-view__container" style="background-image: url(${this.locationImage});">
           <header class="main-view__header">
             <button class="main-view__header__button" @click="${this._onMenuClick}">${menuSvg}</button>
           </header>
-          <current-weather  .weather="${this.weather}" .location="${this.location}"></current-weather>
+          <current-weather
+            .weather="${this.weather}"
+            .location="${this.location}"
+            .dateTime="${this.dateTime}">
+          </current-weather>
           <div class="main-view__wave">${waveSvg}</div>
         </div>
         <forecast-weather></forecast-weather>
@@ -120,12 +125,22 @@ class MainView extends LitElement {
     return this.active;
   }
 
-  updated(changedProperties) {
-    console.log(this.location, this.weather);
+  firstUpdated(changedProperties) {
+    this._getWeather();
   }
 
-  firstUpdated(changedProperties) {
-    this._getCurrentWeather();
+  updated(changedProperties) {
+    if(changedProperties.get("location")) {
+      getImageForLocation(this.location).then((response) => {
+        this.locationImage = response;
+      })
+    }
+
+    if(changedProperties.get("weather")) {
+      getImageForLocation(this.location).then((response) => {
+        this.dateTime = this._getCurrentDateTime();
+      })
+    }
   }
 
   static get properties() {
@@ -133,6 +148,8 @@ class MainView extends LitElement {
       active: { type: Boolean },
       weather: { type: Object },
       location: { type: Object },
+      dateTime: { type: String },
+      locationImage: { type: String},
       _drawerOpened: { type: Boolean },
     }
   }
@@ -143,13 +160,20 @@ class MainView extends LitElement {
     this.location = {};
   }
 
-  _getCurrentWeather() {
-    getCurrentLocation().then((location) => {
-      this.location = location;
-      return getCurrentWeatherForLocation(location).then((weather) => {
-        this.weather = weather;
-      })
-    })
+  async _getWeather() {
+    const location = await getCurrentLocation();
+    this.location = location;
+
+    const weather = await getCurrentWeatherForLocation(location);
+    this.weather =  weather;
+  }
+
+  _getCurrentDateTime() {
+    return new Date().toLocaleString('en-us', {
+      weekday: 'long',
+      hour: 'numeric',
+      minute: '2-digit',
+    });
   }
 
   _onMenuClick() {

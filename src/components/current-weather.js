@@ -1,5 +1,6 @@
 // Import the LitElement base class and html helper function
 import { LitElement, html } from '@polymer/lit-element';
+import './weather-icon';
 
 // Extend the LitElement base class
 class CurrentWeather extends LitElement {
@@ -16,6 +17,7 @@ class CurrentWeather extends LitElement {
       region
     } = this.location;
     const {
+      icon,
       shortForecast,
       temperature,
       temperatureUnit
@@ -118,11 +120,11 @@ class CurrentWeather extends LitElement {
         <div class="current-weather__container">
           <div class="current-weather__grid">
             <span class="current-weather__location">${city}, <strong>${region}</strong></span>
-            <span class="current-weather__date">date</span>
+            <span class="current-weather__date">${this.dateTime}</span>
             <span class="current-weather__forecast">${shortForecast}</span>
           </div>
           <span class="current-weather__temperature">
-            <weather-icon class="current-weather__temperature__icon">*</weather-icon>
+            <weather-icon class="current-weather__temperature__icon" .icon="${icon}">*</weather-icon>
             <span class="current-weather__temperature__value">
               ${temperature}<sup class="current-weather__temperature__symbol">&deg;${temperatureUnit}</sup>
             </span>
@@ -134,6 +136,7 @@ class CurrentWeather extends LitElement {
 
   static get properties() {
     return {
+      dateTime: { type: String },
       weather: { type: Object },
       location: { type: Object }
     }
