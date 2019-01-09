@@ -1,16 +1,6 @@
 import { html, LitElement } from '@polymer/lit-element';
 
 class NotFoundView extends LitElement {
-  shouldUpdate() {
-    return this.active;
-  }
-
-  static get properties() {
-    return {
-      active: { type: Boolean }
-    }
-  }
-
   render() {
     return html`
       <section>
@@ -20,6 +10,16 @@ class NotFoundView extends LitElement {
         </p>
       </section>
     `
+  }
+
+  shouldUpdate() {
+    return this.active;
+  }
+
+  static get properties() {
+    return {
+      active: { type: Boolean }
+    }
   }
 }
 

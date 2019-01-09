@@ -17,18 +17,15 @@ class MyApp extends LitElement {
       }
     </style>
     
-    <div class="main-view">      
-      <!-- Main content -->
-      <main role="main">
-        <main-view class="page" ?active="${this._page === "main" || this._page === "settings"}"
-          ._drawerOpened="${this._page === "settings"}"
-          @menu-opened=${this._onMenuOpen}  
-          @menu-closed=${this._onMenuClose}
-        >
-        </main-view>
-        <not-found-view class="page" ?active="${this._page === 'not-found'}"></not-found-view>
-      </main>
-    </div>
+    <main role="main">
+      <main-view class="page" ?active="${this._page === "main" || this._page === "settings"}"
+        ._drawerOpened="${this._page === "settings"}"
+        @menu-opened=${this._onMenuOpen}  
+        @menu-closed=${this._onMenuClose}
+      >
+      </main-view>
+      <not-found-view class="page" ?active="${this._page === 'not-found'}"></not-found-view>
+    </main>
     `;
   }
 
