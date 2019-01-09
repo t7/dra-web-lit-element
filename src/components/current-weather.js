@@ -26,17 +26,6 @@ class CurrentWeather extends LitElement {
           min-height: 50vh;
           padding-bottom: 10vw;
         }
-
-        .current-weather:before {
-          background-color: rgba(0, 0, 0, 0.5);
-          content: '';
-          display: block;
-          height: 100%;
-          left: 0;
-          position: absolute;
-          top: 0;
-          width: 100vw;
-        }
         
         .current-weather__container {
           display: grid;

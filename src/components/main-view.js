@@ -31,7 +31,20 @@ class MainView extends LitElement {
           padding: 4em 6em;
         }
         
+        .main-view__container:before {
+          background-color: rgba(0, 0, 0, 0.5);
+          content: '';
+          display: block;
+          height: 100%;
+          left: 0;
+          position: absolute;
+          top: 0;
+          width: 100vw;
+        }
+        
         .main-view__header {
+          margin-bottom: 20px;
+          position: relative;
           text-align: right;
         }
         
