@@ -1,5 +1,6 @@
 // Import the LitElement base class and html helper function
 import { LitElement, html } from '@polymer/lit-element';
+import './weather-icon';
 
 // Extend the LitElement base class
 class ForecastWeather extends LitElement {
@@ -84,18 +85,31 @@ class ForecastWeather extends LitElement {
       <section class="forecast-weather">
         <div class="forecast-weather__container">
           <ul>
-            <li class="forecast-weather__period">
-              <p class="forecast-weather__period__name">day.name</p>
-              <WeatherIcon class="forecast-weather__period__icon">icon</WeatherIcon>
-              <p>
-                <span class="forecast-weather__period__temperature forecast-weather__period__temperature--high"><strong>high}&deg;C</strong></span>
-                <span class="forecast-weather__period__temperature forecast-weather__period__temperature--low">low&deg;C</span>
-              </p>
-            </li>
+            ${this.forecast.map((item) => {
+              return html`
+                <li class="forecast-weather__period">
+                  <p class="forecast-weather__period__name">${item.name}</p>
+                  <weather-icon class="forecast-weather__period__icon" .icon="${item.icon}">icon</weather-icon>
+                  <p>
+                    <span class="forecast-weather__period__temperature forecast-weather__period__temperature--high"><strong>${item.high.temperature}&deg;${item.high.temperatureUnit}</strong></span>
+                    <span class="forecast-weather__period__temperature forecast-weather__period__temperature--low">${item.low.temperature}&deg;${item.low.temperatureUnit}</span>
+                  </p>
+                </li>
+              `
+            })}
           </ul>
         </div>
       </section>
     `;
+  }
+
+  static  get properties () {
+    return { forecast: { type: Array } };
+  }
+
+  constructor () {
+    super();
+    this.forecast = [];
   }
 }
 // Register the new element with the browser.

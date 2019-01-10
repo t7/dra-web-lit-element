@@ -6,10 +6,12 @@ import {
   getImageForLocation
 } from '../utils/location'
 import  {
-  getCurrentWeatherForLocation
+  getCurrentWeatherForLocation,
+  getForecastForLocation,
 } from "../utils/weather";
 import './current-weather';
 import './forecast-weather';
+import  "./location-form"
 
 // Extend the LitElement base class
 class MainView extends LitElement {
@@ -85,20 +87,12 @@ class MainView extends LitElement {
         app-drawer {
            z-index: 2;
           --app-drawer-scrim-background: rgba(0, 0, 0, 0);
-        }
-        
-        .drawer-content {
-          background-color: var(--transparent-black);
-          box-sizing: border-box;
-          width: 100%;
-          height: 100%;
-          padding: 24px;
-          position: relative;
+          --app-drawer-width: 500px
         }
       </style>
-
       <!-- template content -->
-      <div class="main-view">
+      <div class="main-view"
+      >
         <div class="main-view__container" style="background-image: url(${this.locationImage});">
           <header class="main-view__header">
             <button class="main-view__header__button" @click="${this._onMenuClick}">${menuSvg}</button>
@@ -110,12 +104,12 @@ class MainView extends LitElement {
           </current-weather>
           <div class="main-view__wave">${waveSvg}</div>
         </div>
-        <forecast-weather></forecast-weather>
+        <forecast-weather .forecast="${this.forecast}"></forecast-weather>
         <app-drawer .opened="${this._drawerOpened}"
           @opened-changed="${this._drawerOpenedChanged}"
           align="end"
          >
-          <div class="drawer-content"></div>
+          <location-form></location-form>
         </app-drawer>
       </div>
     `;
@@ -126,7 +120,7 @@ class MainView extends LitElement {
   }
 
   firstUpdated(changedProperties) {
-    this._getWeather();
+    this._getLocationAndWeather();
   }
 
   updated(changedProperties) {
@@ -147,6 +141,7 @@ class MainView extends LitElement {
     return {
       active: { type: Boolean },
       weather: { type: Object },
+      forecast: { type: Array },
       location: { type: Object },
       dateTime: { type: String },
       locationImage: { type: String},
@@ -158,14 +153,45 @@ class MainView extends LitElement {
     super();
     this.weather = {};
     this.location = {};
+    this.forecast = [];
   }
 
   async _getWeather() {
+    // run in parallel
+    const weather = this._getCurrentWeather(this.location);
+    const forecast = this._getForecast(this.location);
+
+    return {
+      weather: await weather,
+      forecast: await forecast,
+    }
+  }
+
+  async _getLocation() {
     const location = await getCurrentLocation();
     this.location = location;
+    return location;
+  }
 
-    const weather = await getCurrentWeatherForLocation(location);
-    this.weather =  weather;
+  async _getCurrentWeather() {
+    const weather =  await getCurrentWeatherForLocation(this.location);
+    this.weather = weather;
+    return weather;
+  }
+
+  async _getForecast() {
+    const forecast =  await getForecastForLocation(this.location);
+    this.forecast = forecast;
+    return forecast;
+  }
+
+
+  async _getLocationAndWeather() {
+    // run in series
+    return {
+      location: await this._getLocation(),
+      weather: await this._getWeather()
+    }
   }
 
   _getCurrentDateTime() {
@@ -177,13 +203,11 @@ class MainView extends LitElement {
   }
 
   _onMenuClick() {
-    this._drawerOpened = true;
     this.dispatchEvent(new CustomEvent('menu-opened'));
   }
 
   _drawerOpenedChanged(e) {
     if (this._drawerOpened && !e.target.opened) {
-      this._drawerOpened = false;
       this.dispatchEvent(new CustomEvent('menu-closed'));
     }
   }

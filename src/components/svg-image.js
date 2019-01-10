@@ -1,5 +1,10 @@
 import { html } from '@polymer/lit-element';
 
+export const closeButton = html`<svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="sidebar__icon">
+            <path d="M505.943 6.058c-8.077-8.077-21.172-8.077-29.249 0L6.058 476.693c-8.077 8.077-8.077 21.172 0 29.249A20.612 20.612 0 0 0 20.683 512a20.614 20.614 0 0 0 14.625-6.059L505.943 35.306c8.076-8.076 8.076-21.171 0-29.248z"></path>
+            <path d="M505.942 476.694L35.306 6.059c-8.076-8.077-21.172-8.077-29.248 0-8.077 8.076-8.077 21.171 0 29.248l470.636 470.636a20.616 20.616 0 0 0 14.625 6.058 20.615 20.615 0 0 0 14.624-6.057c8.075-8.078 8.075-21.173-.001-29.25z"></path>
+          </svg>`;
+
 export const waveSvg = html`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 17"><path d="M0 30 V15 Q30 3 60 15 V30z" /><path d="M0 30 V12 Q30 17 55 12 T100 11 V30z" /></svg>`;
 
 export const menuSvg = html`<svg enable-background="new 0 0 512 512" version="1.1" viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">

@@ -64,6 +64,7 @@ class WeatherIcon extends LitElement {
    * that uses LitElement as a base class.
    */
   render(){
+    console.log(this.icon);
     /**
      * `render` must return a lit-html `TemplateResult`.
      *
@@ -73,7 +74,11 @@ class WeatherIcon extends LitElement {
     return html`
       <style>
         svg {
-         display: block;
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+          height: 3.75rem;
+          width: auto;
         }
       </style>
       <!-- template content -->

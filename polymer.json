@@ -1,5 +1,8 @@
 {
   "entrypoint": "index.html",
+  "sources": [
+    "images/**/*"
+  ],
   "shell": "src/components/my-app.js",
   "extraDependencies": [
     "node_modules/@webcomponents/webcomponentsjs/**"

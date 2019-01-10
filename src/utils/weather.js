@@ -1,5 +1,5 @@
 import { WEATHER_API_HOST } from './api';
-// import formatDate from 'date-fns/format';
+import moment from 'moment';
 
 const iconRegex = /^https:\/\/api.weather.gov\/icons\/land\/(day|night)\/(.*?)(,|\/|\?)/;
 
@@ -48,14 +48,14 @@ export const getForecastForLocation = async ({ latitude, longitude }) => {
       temp = {
         high: period,
         icon: iconRegex.exec(period.icon)[2],
-        name: formatDate(period.startTime, 'ddd'),
+        name: moment(period.startTime).format('ddd'),
       };
     } else {
       temp = {
         ...temp,
         low: period,
         icon: iconRegex.exec(period.icon)[2],
-        name: formatDate(period.startTime, 'ddd'),
+        name:  moment(period.startTime).format('ddd'),
       };
 
       forecast.push(temp);
