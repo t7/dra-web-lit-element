@@ -195,11 +195,15 @@ class MainView extends LitElement {
     });
   }
 
-  async _onLocationChange(e) {
+  _onLocationChange(e) {
     const zipCode = e.detail ? e.detail.zipCode : null;
-    const location = zipCode ? await getLocationByZipCode(zipCode) : await getCurrentLocation();
-    this.location = location;
-    return location;
+    const locationPromise = zipCode ? getLocationByZipCode(zipCode) : getCurrentLocation();
+    locationPromise.then((response) => {
+      this.location = response;
+      return location;
+    }).catch((err) => {
+      // handle err
+    })
   }
 
   _onMenuClick() {

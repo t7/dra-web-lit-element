@@ -17,6 +17,11 @@ export const getLocationByZipCode = async zipCode => {
   const locationResponse = await fetch(
     `${ZIP_CODE_HOST}/${zipCode}`,
   );
+
+  if (locationResponse.ok === false) {
+    throw "location error";
+  }
+
   const json = await locationResponse.json();
   const {
     places: [place],

@@ -64,7 +64,6 @@ class WeatherIcon extends LitElement {
    * that uses LitElement as a base class.
    */
   render(){
-    console.log(this.icon);
     /**
      * `render` must return a lit-html `TemplateResult`.
      *
