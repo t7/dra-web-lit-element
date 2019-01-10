@@ -122,8 +122,8 @@ class LocationForm extends LitElement {
       </style>
       <aside class="sidebar sidebar--opened">
         <button class="sidebar__close" @click="${this._clickHandler}">${closeButton}</button>
-        <form class="sidebar__form">
-          <input class="input sidebar__form__input" placeholder="Enter Zip Code">
+        <form class="sidebar__form" @submit="${this._onSubmit}">
+          <input class="input sidebar__form__input" placeholder="Enter Zip Code" name="zipCode">
           <button  type="submit" class="sidebar__form__change button button--primary">
             Search
           </button>
@@ -137,6 +137,21 @@ class LocationForm extends LitElement {
 
   _clickHandler() {
     this.dispatchEvent(new CustomEvent('menu-closed', { bubbles: true, composed: true }));
+  }
+
+  _onSubmit(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const zipCode = formData.get('zipCode');
+
+    const isValidZipCode = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zipCode);
+    if (isValidZipCode) {
+      this.hasError = false;
+      this.dispatchEvent(new CustomEvent('zip-updated', { bubbles: true, composed: true, detail: { zipCode } }));
+      this.dispatchEvent(new CustomEvent('menu-closed', { bubbles: true, composed: true }));
+    } else {
+      this.hasError = true;
+    }
   }
 }
 

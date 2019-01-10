@@ -3,7 +3,8 @@ import {LitElement, html} from '@polymer/lit-element';
 import {menuSvg, waveSvg} from './svg-image';
 import {
   getCurrentLocation,
-  getImageForLocation
+  getImageForLocation,
+  getLocationByZipCode
 } from '../utils/location'
 import  {
   getCurrentWeatherForLocation,
@@ -92,6 +93,7 @@ class MainView extends LitElement {
       </style>
       <!-- template content -->
       <div class="main-view"
+        @zip-updated="${this._onZipUpdated}"
       >
         <div class="main-view__container" style="background-image: url(${this.locationImage});">
           <header class="main-view__header">
@@ -120,20 +122,12 @@ class MainView extends LitElement {
   }
 
   firstUpdated(changedProperties) {
-    this._getLocationAndWeather();
+    this._getLocation();
   }
 
   updated(changedProperties) {
     if(changedProperties.get("location")) {
-      getImageForLocation(this.location).then((response) => {
-        this.locationImage = response;
-      })
-    }
-
-    if(changedProperties.get("weather")) {
-      getImageForLocation(this.location).then((response) => {
-        this.dateTime = this._getCurrentDateTime();
-      })
+      this._updateWeatherData();
     }
   }
 
@@ -156,14 +150,16 @@ class MainView extends LitElement {
     this.forecast = [];
   }
 
-  async _getWeather() {
-    // run in parallel
+  async _updateWeatherData() {
     const weather = this._getCurrentWeather(this.location);
     const forecast = this._getForecast(this.location);
+    const locationImage = this._getLocationImage();
+    this.dateTime = this._getCurrentDateTime();
 
     return {
       weather: await weather,
       forecast: await forecast,
+      locationImage: await locationImage
     }
   }
 
@@ -171,6 +167,12 @@ class MainView extends LitElement {
     const location = await getCurrentLocation();
     this.location = location;
     return location;
+  }
+  
+  async _getLocationImage() {
+    const locationImage = await getImageForLocation(this.location);
+    this.locationImage = locationImage;
+    return locationImage;
   }
 
   async _getCurrentWeather() {
@@ -185,21 +187,19 @@ class MainView extends LitElement {
     return forecast;
   }
 
-
-  async _getLocationAndWeather() {
-    // run in series
-    return {
-      location: await this._getLocation(),
-      weather: await this._getWeather()
-    }
-  }
-
   _getCurrentDateTime() {
     return new Date().toLocaleString('en-us', {
       weekday: 'long',
       hour: 'numeric',
       minute: '2-digit',
     });
+  }
+
+  async _onZipUpdated(e) {
+    const zipCode = e.detail.zipCode;
+    const location = await getLocationByZipCode(zipCode);
+    this.location = location;
+    return location;
   }
 
   _onMenuClick() {
