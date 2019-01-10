@@ -8,6 +8,7 @@ class LocationForm extends LitElement {
         :host {
           background-color: rgb(0, 0, 0);
           box-sizing: border-box;
+          color: #ffff;
           display: block;
           width: 100%;
           height: 100%;
@@ -132,14 +133,28 @@ class LocationForm extends LitElement {
             Current Location
           </button>
         </form>
+        <div ?hidden="${!this.zipCode}" class="recent-searches">
+          <h2>Recent Zip Code Searches:</h2>
+          <ul>
+            <li>
+              <a href="#">${this.zipCode}</a>
+            </li>
+          </ul>
+          <button type="button" @click="${this._clearZip}" class="button button--secondary">Clear Recent Zip Codes</button>
+        </div>
       </aside>
       `
   }
 
   static get properties() {
     return {
-      hasError: { type: Boolean }
+      hasError: { type: Boolean },
+      zipCode: { type: String }
     }
+  }
+
+  _clearZip() {
+    this.zipCode = undefined;
   }
 
   _onCloseHandler() {
@@ -160,6 +175,7 @@ class LocationForm extends LitElement {
     const isValidZipCode = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zipCode);
     if (isValidZipCode) {
       this.hasError = false;
+      this.zipCode = zipCode;
       form.reset();
       this.dispatchEvent(new CustomEvent('location-changed', { bubbles: true, composed: true, detail: { zipCode } }));
       this.dispatchEvent(new CustomEvent('menu-closed', { bubbles: true, composed: true }));
