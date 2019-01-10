@@ -124,6 +124,7 @@ class LocationForm extends LitElement {
         <button class="sidebar__close" @click="${this._onCloseHandler}">${closeButton}</button>
         <form class="sidebar__form" @submit="${this._onSubmit}">
           <input class="input sidebar__form__input" placeholder="Enter Zip Code" name="zipCode">
+          <p ?hidden="${!this.hasError}" class="sidebar__form__error">Invalid Zip Code</p>
           <button  type="submit" class="sidebar__form__change button button--primary">
             Search
           </button>
@@ -133,6 +134,12 @@ class LocationForm extends LitElement {
         </form>
       </aside>
       `
+  }
+
+  static get properties() {
+    return {
+      hasError: { type: Boolean }
+    }
   }
 
   _onCloseHandler() {
@@ -146,12 +153,14 @@ class LocationForm extends LitElement {
 
   _onSubmit(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
+    const form = e.target;
+    const formData = new FormData(form);
     const zipCode = formData.get('zipCode');
 
     const isValidZipCode = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zipCode);
     if (isValidZipCode) {
       this.hasError = false;
+      form.reset();
       this.dispatchEvent(new CustomEvent('location-changed', { bubbles: true, composed: true, detail: { zipCode } }));
       this.dispatchEvent(new CustomEvent('menu-closed', { bubbles: true, composed: true }));
     } else {
