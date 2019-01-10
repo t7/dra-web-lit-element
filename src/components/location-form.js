@@ -121,13 +121,13 @@ class LocationForm extends LitElement {
         }
       </style>
       <aside class="sidebar sidebar--opened">
-        <button class="sidebar__close" @click="${this._clickHandler}">${closeButton}</button>
+        <button class="sidebar__close" @click="${this._onCloseHandler}">${closeButton}</button>
         <form class="sidebar__form" @submit="${this._onSubmit}">
           <input class="input sidebar__form__input" placeholder="Enter Zip Code" name="zipCode">
           <button  type="submit" class="sidebar__form__change button button--primary">
             Search
           </button>
-          <button type="button" class="sidebar__form__current button button--tertiary">
+          <button type="button" class="sidebar__form__current button button--tertiary" @click="${this._onCurrentHandler}">
             Current Location
           </button>
         </form>
@@ -135,7 +135,12 @@ class LocationForm extends LitElement {
       `
   }
 
-  _clickHandler() {
+  _onCloseHandler() {
+    this.dispatchEvent(new CustomEvent('menu-closed', { bubbles: true, composed: true }));
+  }
+
+  _onCurrentHandler() {
+    this.dispatchEvent(new CustomEvent('location-changed', { bubbles: true, composed: true }));
     this.dispatchEvent(new CustomEvent('menu-closed', { bubbles: true, composed: true }));
   }
 
@@ -147,7 +152,7 @@ class LocationForm extends LitElement {
     const isValidZipCode = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zipCode);
     if (isValidZipCode) {
       this.hasError = false;
-      this.dispatchEvent(new CustomEvent('zip-updated', { bubbles: true, composed: true, detail: { zipCode } }));
+      this.dispatchEvent(new CustomEvent('location-changed', { bubbles: true, composed: true, detail: { zipCode } }));
       this.dispatchEvent(new CustomEvent('menu-closed', { bubbles: true, composed: true }));
     } else {
       this.hasError = true;

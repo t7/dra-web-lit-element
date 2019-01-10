@@ -93,7 +93,7 @@ class MainView extends LitElement {
       </style>
       <!-- template content -->
       <div class="main-view"
-        @zip-updated="${this._onZipUpdated}"
+        @location-changed="${this._onLocationChange}"
       >
         <div class="main-view__container" style="background-image: url(${this.locationImage});">
           <header class="main-view__header">
@@ -195,9 +195,9 @@ class MainView extends LitElement {
     });
   }
 
-  async _onZipUpdated(e) {
-    const zipCode = e.detail.zipCode;
-    const location = await getLocationByZipCode(zipCode);
+  async _onLocationChange(e) {
+    const zipCode = e.detail ? e.detail.zipCode : null;
+    const location = zipCode ? await getLocationByZipCode(zipCode) : await getCurrentLocation();
     this.location = location;
     return location;
   }
