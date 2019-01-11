@@ -151,16 +151,17 @@ class MainView extends LitElement {
 
   updated(changedProperties) {
     if(changedProperties.get("location")) {
-      this.isLoading = true;
-      this._updateWeatherData().then(() => {
+      (async () => {
+        this.isLoading = true;
+        await this._updateWeatherData();
         this.isLoading = false;
-      });
+      })()
     }
   }
 
   async _updateWeatherData() {
-    const weather = this._getCurrentWeather(this.location);
-    const forecast = this._getForecast(this.location);
+    const weather = this._getCurrentWeather();
+    const forecast = this._getForecast();
     const locationImage = this._getLocationImage();
     this.dateTime = this._getCurrentDateTime();
 
@@ -199,15 +200,14 @@ class MainView extends LitElement {
     });
   }
 
-  _onLocationChange(e) {
+  async _onLocationChange(e) {
     const zipCode = e.detail ? e.detail.zipCode : null;
     const locationPromise = zipCode ? getLocationByZipCode(zipCode) : getCurrentLocation();
-    locationPromise.then((response) => {
-      this.location = response;
-      return location;
-    }).catch((err) => {
-      // handle err
-    })
+    const location = await locationPromise;
+
+    if (!(location instanceof Error)) {
+      return this.location = location;
+    }
   }
 
   _onMenuClick() {
