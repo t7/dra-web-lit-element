@@ -1,13 +1,13 @@
 // Import the LitElement base class and html helper function
 import {html} from '@polymer/lit-element';
-import {menuSvg, waveSvg} from './svg-image';
+import {menuSvg, waveSvg} from '../svg-image';
 
-import { WeatherContainer } from './weather-container'
+import { WeatherContainer } from '../weather-container'
 
-import './current-weather';
-import './forecast-weather';
-import  "./location-form";
-import './loading-spinner';
+import '../current-weather';
+import '../forecast-weather';
+import '../location-form';
+import '../loading-spinner';
 
 
 // Extend the LitElement base class
@@ -88,7 +88,7 @@ class MainView extends WeatherContainer {
         }
       </style>
       <!-- template content -->
-      <div class="main-view"
+      <section class="main-view"
         @location-changed="${this.updateLocation}"
         @menu-opened=${this._openMenu}  
         @menu-closed=${this._closeMenu}
@@ -112,7 +112,7 @@ class MainView extends WeatherContainer {
           <location-form />
         </app-drawer>
         <loading-spinner .active="${this.isLoading}"/>
-      </div>
+      </section>
     `;
   }
 

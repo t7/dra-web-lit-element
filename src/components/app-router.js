@@ -5,29 +5,29 @@ class AppRouter extends LitElement {
   render(){
     const appRoute = { ...this.route };
     return html`
-     <style>      
-      .page {
-       display: none;
-      }
-
-      .page[active] {
-        display: block;
-      }
-    </style>
+      <style>      
+        .view {
+         display: none;
+        }
+  
+        .view[active] {
+          display: block;
+        }
+       </style>
     
-    <div className="app-router"
-      @route-changed=${this._onRouteChange}  
-    >   
-      ${Object.keys(appRoute).map( (key) => {
-        return html`<div ?active="${key === this._page}" class="page"><slot name="${key}" /></div>`
-      })}
-    </div>
+      <div className="app-router"
+        @route-changed=${this._onRouteChange}  
+      >   
+        ${Object.keys(appRoute).map( (key) => {
+          return html`<div ?active="${key === this._view}" class="view"><slot name="${key}" /></div>`
+        })}
+      </div>
   `;
   }
 
   static get properties() {
     return {
-      _page: { type: String },
+      _view: { type: String },
       route: { type: Array }
     }
   }
@@ -75,10 +75,10 @@ class AppRouter extends LitElement {
   }
 
   _loadPage(view) {
-    import(`./${view}.js`).then((module) => {
+    import(`./views/${view}.js`).then((module) => {
       // Put code in here that you want to run every time when navigating to main view
     });
-    this._page = view;
+    this._view = view;
   }
 }
 
