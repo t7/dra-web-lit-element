@@ -158,12 +158,18 @@ class LocationForm extends LitElement {
   }
 
   _onCloseHandler() {
-    this.dispatchEvent(new CustomEvent('menu-closed', { bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('menu-closed', {
+      bubbles: true, composed: true
+    }));
   }
 
   _onCurrentHandler() {
-    this.dispatchEvent(new CustomEvent('location-changed', { bubbles: true, composed: true }));
-    this.dispatchEvent(new CustomEvent('menu-closed', { bubbles: true, composed: true }));
+    this.dispatchEvent(new CustomEvent('location-changed', {
+      bubbles: true, composed: true
+    }));
+    this.dispatchEvent(new CustomEvent('menu-closed', {
+      bubbles: true, composed: true
+    }));
   }
 
   _onSubmit(e) {
@@ -177,8 +183,12 @@ class LocationForm extends LitElement {
       this.hasError = false;
       this.zipCode = zipCode;
       form.reset();
-      this.dispatchEvent(new CustomEvent('location-changed', { bubbles: true, composed: true, detail: { zipCode } }));
-      this.dispatchEvent(new CustomEvent('menu-closed', { bubbles: true, composed: true }));
+      this.dispatchEvent(new CustomEvent('location-changed', {
+        bubbles: true, composed: true, detail: { zipCode }
+      }));
+      this.dispatchEvent(new CustomEvent('menu-closed', {
+        bubbles: true, composed: true
+      }));
     } else {
       this.hasError = true;
     }

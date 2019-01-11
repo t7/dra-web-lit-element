@@ -90,6 +90,8 @@ class MainView extends WeatherContainer {
       <!-- template content -->
       <div class="main-view"
         @location-changed="${this.updateLocation}"
+        @menu-opened=${this._openMenu}  
+        @menu-closed=${this._closeMenu}
       >
         <div class="main-view__container" style="background-image: url(${this.locationImage});">
           <header class="main-view__header">
