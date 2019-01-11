@@ -130,6 +130,11 @@ class MainView extends WeatherContainer {
     this.location = {};
     this.forecast = [];
     this.isLoading = false;
+
+    const path = window.decodeURIComponent(window.location.pathname);
+    if (path === '/settings') {
+      this._drawerOpened = true;
+    }
   }
 
   firstUpdated(changedProperties) {
