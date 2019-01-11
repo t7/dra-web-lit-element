@@ -100,11 +100,11 @@ class MainView extends WeatherContainer {
           <current-weather
             .weather="${this.weather}"
             .location="${this.location}"
-            .dateTime="${this.dateTime}">
-          </current-weather>
+            .dateTime="${this.dateTime}"
+          />
           <div class="main-view__wave">${waveSvg}</div>
         </div>
-        <forecast-weather .forecast="${this.forecast}" .currentWeather="${this.weather}"></forecast-weather>
+        <forecast-weather .forecast="${this.forecast}" .currentWeather="${this.weather}" />
         <app-drawer .opened="${this._drawerOpened}"
           @opened-changed="${this._drawerOpenedChanged}"
           align="end"

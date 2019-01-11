@@ -75,9 +75,16 @@ class AppRouter extends LitElement {
   }
 
   _loadPage(view) {
-    import(`./views/${view}.js`).then((module) => {
-      // Put code in here that you want to run every time when navigating to main view
-    });
+    switch(view) {
+      case 'main-view':
+        import('./views/main-view').then((module) => {
+          // Put code in here that you want to run every time when navigating to main view
+        });
+        break;
+      case 'not-found-view':
+        import('./views/not-found-view');
+        break;
+    }
     this._view = view;
   }
 }
