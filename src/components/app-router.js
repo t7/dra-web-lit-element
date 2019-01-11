@@ -55,15 +55,15 @@ class AppRouter extends LitElement {
     const path = window.decodeURIComponent(window.location.pathname);
     let view;
     let defaultView;
-    view = Object.keys(this.route).map((key) => {
+    Object.keys(this.route).forEach((key) => {
       if (this.route[key].indexOf(path) !== -1) {
-        return key;
+        view = key;
       }
 
       if (this.route[key] === 'default') {
         defaultView =  key;
       }
-    })[0];
+    });
 
     if (!view && defaultView) {
       view = defaultView;
@@ -78,7 +78,6 @@ class AppRouter extends LitElement {
     import(`./${view}.js`).then((module) => {
       // Put code in here that you want to run every time when navigating to main view
     });
-    debugger;
     this._page = view;
   }
 }
