@@ -4,22 +4,22 @@
   "repository": "Polymer/pwa-starter-kit",
   "scripts": {
     "start": "npm run serve | npm run watch",
-    "serve": "polymer serve --port 8081",
+    "serve": "polymer serve --compile always --port 8081",
     "watch": "browser-sync start --proxy localhost:8081 --open --files \"src/**/*.js\"",
     "build": "polymer build",
     "serve:static": "polymer serve --port 5000 build/es5-bundled"
   },
-  "dependencies": {
-    "@polymer/app-layout": "^3.0.0",
-    "@polymer/lit-element": "^0.6.4",
-    "@polymer/polymer": "^3.1.0",
-    "@webcomponents/webcomponentsjs": "2.2.1",
-    "pwa-helpers": "^0.9.0"
-  },
   "devDependencies": {
     "browser-sync": "^2.26.3",
     "lodash-es": "^4.17.11",
-    "polymer-cli": "^1.9.2",
-    "polyserve": "^0.27.0"
+    "polymer-cli": "^1.9.5",
+    "polyserve": "^0.27.15"
+  },
+  "dependencies": {
+    "@polymer/app-layout": "^3.0.2",
+    "@polymer/lit-element": "^0.7.1",
+    "@polymer/polymer": "^3.1.0",
+    "@webcomponents/webcomponentsjs": "^2.2.3",
+    "pwa-helpers": "^0.9.0"
   }
 }
