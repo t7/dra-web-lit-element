@@ -2,12 +2,11 @@
 import {html} from '@polymer/lit-element';
 import {menuSvg, waveSvg} from '../svg-image';
 
-import { WeatherContainer } from '../weather-container'
-
-import '../current-weather';
-import '../forecast-weather';
-import '../location-form';
-import '../loading-spinner';
+import { WeatherContainer } from '../weather-container.js';
+import '../current-weather.js';
+import '../forecast-weather.js';
+import '../location-form.js';
+import '../loading-spinner.js';
 
 
 // Extend the LitElement base class
