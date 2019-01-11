@@ -12,7 +12,9 @@ import  {
 } from "../utils/weather";
 import './current-weather';
 import './forecast-weather';
-import  "./location-form"
+import  "./location-form";
+import './loading-spinner';
+
 
 // Extend the LitElement base class
 class MainView extends LitElement {
@@ -110,11 +112,33 @@ class MainView extends LitElement {
         <app-drawer .opened="${this._drawerOpened}"
           @opened-changed="${this._drawerOpenedChanged}"
           align="end"
-         >
-          <location-form></location-form>
+        >
+          <location-form />
         </app-drawer>
+        <loading-spinner .active="${this.isLoading}"/>
       </div>
     `;
+  }
+
+  static get properties() {
+    return {
+      active: { type: Boolean },
+      weather: { type: Object },
+      forecast: { type: Array },
+      location: { type: Object },
+      dateTime: { type: String },
+      isLoading: {type: Boolean },
+      locationImage: { type: String},
+      _drawerOpened: { type: Boolean },
+    }
+  }
+
+  constructor() {
+    super();
+    this.weather = {};
+    this.location = {};
+    this.forecast = [];
+    this.isLoading = false;
   }
 
   shouldUpdate(changedProperties) {
@@ -127,27 +151,11 @@ class MainView extends LitElement {
 
   updated(changedProperties) {
     if(changedProperties.get("location")) {
-      this._updateWeatherData();
+      this.isLoading = true;
+      this._updateWeatherData().then(() => {
+        this.isLoading = false;
+      });
     }
-  }
-
-  static get properties() {
-    return {
-      active: { type: Boolean },
-      weather: { type: Object },
-      forecast: { type: Array },
-      location: { type: Object },
-      dateTime: { type: String },
-      locationImage: { type: String},
-      _drawerOpened: { type: Boolean },
-    }
-  }
-
-  constructor() {
-    super();
-    this.weather = {};
-    this.location = {};
-    this.forecast = [];
   }
 
   async _updateWeatherData() {
