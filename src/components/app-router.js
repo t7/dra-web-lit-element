@@ -3,7 +3,7 @@ import {installRouter} from "pwa-helpers/router";
 
 class AppRouter extends LitElement {
   render(){
-    const appRoute = { ...this.route, default: ['default'] };
+    const appRoute = { ...this.route };
     return html`
      <style>      
       .page {
@@ -18,10 +18,8 @@ class AppRouter extends LitElement {
     <div className="app-router"
       @route-changed=${this._onRouteChange}  
     >   
-
       ${Object.keys(appRoute).map( (key) => {
-        const route = appRoute[key];
-        return html`<div ?active="${route.indexOf(this._page) !== -1}" class="page"><slot name="${key}" /></div>`
+        return html`<div ?active="${key === this._page}" class="page"><slot name="${key}" /></div>`
       })}
     </div>
   `;
@@ -55,26 +53,33 @@ class AppRouter extends LitElement {
 
   _locationChanged() {
     const path = window.decodeURIComponent(window.location.pathname);
-    const page = path === '/' ? 'main' : path.slice(1);
-    this._loadPage(page);
-  }
+    let view;
+    let defaultView;
+    view = Object.keys(this.route).map((key) => {
+      if (this.route[key].indexOf(path) !== -1) {
+        return key;
+      }
 
-  _loadPage(page) {
-    switch(page) {
-      case 'main':
-        import('../components/main-view.js').then((module) => {
-          // Put code in here that you want to run every time when navigating to main view
-        });
-        break;
-      case 'settings':
-        import('../components/main-view.js');
-        break;
-      default:
-        page = 'default';
-        import('../components/not-found-view.js');
+      if (this.route[key] === 'default') {
+        defaultView =  key;
+      }
+    })[0];
+
+    if (!view && defaultView) {
+      view = defaultView;
     }
 
-    this._page = page;
+    if (view) {
+      this._loadPage(view);
+    }
+  }
+
+  _loadPage(view) {
+    import(`./${view}.js`).then((module) => {
+      // Put code in here that you want to run every time when navigating to main view
+    });
+    debugger;
+    this._page = view;
   }
 }
 

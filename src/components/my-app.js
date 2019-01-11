@@ -8,11 +8,15 @@ class MyApp extends LitElement {
     // Anything that's related to rendering should be done in here.
     return html`   
     <main role="main">
-      <app-router .route="${{ main: ["main", "settings"] }}">
-        <div slot="main">
+      <app-router .route="${{
+          "main-view": ["/", "/settings"],
+          "not-found-view": 'default'
+        }}"
+      >
+        <div slot="main-view">
           <main-view />    
         </div>
-        <div slot="default" >
+        <div slot="not-found-view" >
           <not-found-view />
         </div>
       </app-router>
