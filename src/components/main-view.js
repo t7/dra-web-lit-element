@@ -1,15 +1,9 @@
 // Import the LitElement base class and html helper function
-import {LitElement, html} from '@polymer/lit-element';
+import {html} from '@polymer/lit-element';
 import {menuSvg, waveSvg} from './svg-image';
-import {
-  getCurrentLocation,
-  getImageForLocation,
-  getLocationByZipCode
-} from '../utils/location'
-import  {
-  getCurrentWeatherForLocation,
-  getForecastForLocation,
-} from "../utils/weather";
+
+import { WeatherContainer } from './weather-container'
+
 import './current-weather';
 import './forecast-weather';
 import  "./location-form";
@@ -17,7 +11,7 @@ import './loading-spinner';
 
 
 // Extend the LitElement base class
-class MainView extends LitElement {
+class MainView extends WeatherContainer {
   render() {
     return html`
       <style>      
@@ -95,7 +89,7 @@ class MainView extends LitElement {
       </style>
       <!-- template content -->
       <div class="main-view"
-        @location-changed="${this._onLocationChange}"
+        @location-changed="${this.onLocationChange}"
       >
         <div class="main-view__container" style="background-image: url(${this.locationImage});">
           <header class="main-view__header">
@@ -123,12 +117,8 @@ class MainView extends LitElement {
   static get properties() {
     return {
       active: { type: Boolean },
-      weather: { type: Object },
-      forecast: { type: Array },
-      location: { type: Object },
       dateTime: { type: String },
       isLoading: {type: Boolean },
-      locationImage: { type: String},
       _drawerOpened: { type: Boolean },
     }
   }
@@ -146,7 +136,7 @@ class MainView extends LitElement {
   }
 
   firstUpdated(changedProperties) {
-    this._getLocation();
+    this.getLocation();
   }
 
   updated(changedProperties) {
@@ -160,9 +150,9 @@ class MainView extends LitElement {
   }
 
   async _updateWeatherData() {
-    const weather = this._getCurrentWeather();
-    const forecast = this._getForecast();
-    const locationImage = this._getLocationImage();
+    const weather = this.getCurrentWeather();
+    const forecast = this.getForecast();
+    const locationImage = this.getLocationImage();
     this.dateTime = this._getCurrentDateTime();
 
     return {
@@ -172,42 +162,12 @@ class MainView extends LitElement {
     }
   }
 
-  async _getLocation() {
-    const location = await getCurrentLocation();
-    return this.location = location;
-  }
-  
-  async _getLocationImage() {
-    const locationImage = await getImageForLocation(this.location);
-    return this.locationImage = locationImage;
-  }
-
-  async _getCurrentWeather() {
-    const weather =  await getCurrentWeatherForLocation(this.location);
-    return this.weather = weather;
-  }
-
-  async _getForecast() {
-    const forecast =  await getForecastForLocation(this.location);
-    return this.forecast = forecast;
-  }
-
   _getCurrentDateTime() {
     return new Date().toLocaleString('en-us', {
       weekday: 'long',
       hour: 'numeric',
       minute: '2-digit',
     });
-  }
-
-  async _onLocationChange(e) {
-    const zipCode = e.detail ? e.detail.zipCode : null;
-    const locationPromise = zipCode ? getLocationByZipCode(zipCode) : getCurrentLocation();
-    const location = await locationPromise;
-
-    if (!(location instanceof Error)) {
-      return this.location = location;
-    }
   }
 
   _onMenuClick() {
