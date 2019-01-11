@@ -1,3 +1,4 @@
+import get from 'lodash-es/get';
 import {
   IP_API_HOST,
   ZIP_CODE_HOST,
@@ -43,8 +44,5 @@ export const getImageForLocation = async ({ latitude, longitude }) => {
     }/locations/${latitude},${longitude}/?embed=location:nearest-urban-areas/location:nearest-urban-area/ua:images`,
   );
   const json = await imageResponse.json();
-
-  return json._embedded['location:nearest-urban-areas'][0]._embedded[
-    'location:nearest-urban-area'
-  ]._embedded['ua:images'].photos[0].image.web;
+  return get(json, '_embedded.location:nearest-urban-areas[0]._embedded.location:nearest-urban-area._embedded.ua:images.photos[0].image.web');
 };
