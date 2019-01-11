@@ -173,26 +173,22 @@ class MainView extends LitElement {
 
   async _getLocation() {
     const location = await getCurrentLocation();
-    this.location = location;
-    return location;
+    return this.location = location;
   }
   
   async _getLocationImage() {
     const locationImage = await getImageForLocation(this.location);
-    this.locationImage = locationImage;
-    return locationImage;
+    return this.locationImage = locationImage;
   }
 
   async _getCurrentWeather() {
     const weather =  await getCurrentWeatherForLocation(this.location);
-    this.weather = weather;
-    return weather;
+    return this.weather = weather;
   }
 
   async _getForecast() {
     const forecast =  await getForecastForLocation(this.location);
-    this.forecast = forecast;
-    return forecast;
+    return this.forecast = forecast;
   }
 
   _getCurrentDateTime() {
