@@ -23,7 +23,7 @@ export class WeatherContainer extends LitElement {
     return this.forecast = forecast;
   }
 
-  async onLocationChange(e) {
+  async updateLocation(e) {
     const zipCode = e.detail ? e.detail.zipCode : null;
     const locationPromise = zipCode ? getLocationByZipCode(zipCode) : getCurrentLocation();
     const location = await locationPromise;

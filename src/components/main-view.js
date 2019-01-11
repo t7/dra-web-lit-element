@@ -89,7 +89,7 @@ class MainView extends WeatherContainer {
       </style>
       <!-- template content -->
       <div class="main-view"
-        @location-changed="${this.onLocationChange}"
+        @location-changed="${this.updateLocation}"
       >
         <div class="main-view__container" style="background-image: url(${this.locationImage});">
           <header class="main-view__header">
