@@ -17,23 +17,23 @@ class LocationForm extends LitElement {
           text-align: left;
         }
         
-        .sidebar__close {
+        .location-form__close {
           border: none;
           background: none;
           cursor: pointer;
           margin-bottom: 20px;
           padding: 5px;
         }
-        .sidebar__close:focus {
+        .location-form__close:focus {
           outline: none;
         }
         
-        .sidebar__icon {
+        .location-form__icon {
           height: 20px;
           fill: #fff;
         }
         
-        .sidebar__form {
+        .location-form__form {
           display: grid;
           grid-gap: 20px;
           grid-template-columns: 1fr 1fr;
@@ -42,22 +42,22 @@ class LocationForm extends LitElement {
             'change current'
             'error error';
         }
-        .sidebar__form__input {
+        .location-form__form__input {
           grid-area: input;
         }
-        .sidebar__form__input--error {
+        .location-form__form__input--error {
           color: #c90000;
         }
-        .sidebar__form__error {
+        .location-form__form__error {
           color: #c90000;
           grid-area: error;
           margin: 0;
           text-align: center;
         }
-        .sidebar__form__change {
+        .location-form__form__change {
           grid-area: change;
         }
-        .sidebar__form__current {
+        .location-form__form__current {
           grid-area: current;
         }
         
@@ -121,15 +121,15 @@ class LocationForm extends LitElement {
           color: #00adcf;
         }
       </style>
-      <aside class="sidebar sidebar--opened">
-        <button class="sidebar__close" @click="${this._onCloseHandler}">${closeButton}</button>
-        <form class="sidebar__form" @submit="${this._onSubmit}">
-          <input class="input sidebar__form__input" placeholder="Enter Zip Code" name="zipCode">
-          <p ?hidden="${!this.hasError}" class="sidebar__form__error">Invalid Zip Code</p>
-          <button  type="submit" class="sidebar__form__change button button--primary">
+      <aside class="location-form location-form--opened">
+        <button class="location-form__close" @click="${this._onCloseHandler}">${closeButton}</button>
+        <form class="location-form__form" @submit="${this._onSubmit}">
+          <input class="input location-form__form__input" placeholder="Enter Zip Code" name="zipCode">
+          <p ?hidden="${!this.hasError}" class="location-form__form__error">Invalid Zip Code</p>
+          <button  type="submit" class="location-form__form__change button button--primary">
             Search
           </button>
-          <button type="button" class="sidebar__form__current button button--tertiary" @click="${this._onCurrentHandler}">
+          <button type="button" class="location-form__form__current button button--tertiary" @click="${this._onCurrentHandler}">
             Current Location
           </button>
         </form>

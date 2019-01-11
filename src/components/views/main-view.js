@@ -30,7 +30,7 @@ class MainView extends WeatherContainer {
           opacity: 0;
         }
         
-        .main-view__container {
+        .main-view__weather-container {
           background-color: black;
           background-position: center;
           background-repeat: no-repeat;
@@ -39,7 +39,7 @@ class MainView extends WeatherContainer {
           position: relative;
         }
         
-        .main-view__container:before {
+        .main-view__weather-container:before {
           background-color: rgba(0, 0, 0, 0.5);
           content: '';
           display: block;
@@ -93,7 +93,7 @@ class MainView extends WeatherContainer {
         @menu-opened=${this._openMenu}  
         @menu-closed=${this._closeMenu}
       >
-        <div class="main-view__container" style="background-image: url(${this.locationImage});">
+        <div class="main-view__weather-container" style="background-image: url(${this.locationImage});">
           <header class="main-view__header">
             <button class="main-view__header__button" @click="${this._openMenu}">${menuSvg}</button>
           </header>
@@ -104,7 +104,7 @@ class MainView extends WeatherContainer {
           />
           <div class="main-view__wave">${waveSvg}</div>
         </div>
-        <forecast-weather .forecast="${this.forecast}" .currentWeather="${this.weather}" />
+        <forecast-weather .forecast="${this.forecast}" .currentWeather="${this.weather}"></forecast-weather>
         <app-drawer .opened="${this._drawerOpened}"
           @opened-changed="${this._drawerOpenedChanged}"
           align="end"
