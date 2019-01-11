@@ -39,6 +39,8 @@ export class WeatherContainer extends LitElement {
 
     if (!(location instanceof Error)) {
       return this.location = location;
+    } else {
+      alert(location);
     }
   }
 }
