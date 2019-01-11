@@ -86,12 +86,19 @@ class ForecastWeather extends LitElement {
         <div class="forecast-weather__container">
           <ul>
             ${this.forecast.map((item) => {
+              let highTemp;
+              if (item.high) {
+                highTemp = html`${item.high.temperature}&deg;${item.high.temperatureUnit}`; 
+              } else {
+                highTemp = html`${this.currentWeather.temperature}&deg;${this.currentWeather.temperatureUnit}`;
+              }
+              
               return html`
                 <li class="forecast-weather__period">
                   <p class="forecast-weather__period__name">${item.name}</p>
                   <weather-icon class="forecast-weather__period__icon" .icon="${item.icon}">icon</weather-icon>
                   <p>
-                    ${item.high && html`<span class="forecast-weather__period__temperature forecast-weather__period__temperature--high"><strong>${item.high.temperature}${item.high.temperatureUnit}</strong></span>`}
+                    <span class="forecast-weather__period__temperature forecast-weather__period__temperature--high"><strong>${highTemp}</strong></span>
                     <span class="forecast-weather__period__temperature forecast-weather__period__temperature--low">${item.low.temperature}&deg;${item.low.temperatureUnit}</span>
                   </p>
                 </li>
@@ -104,7 +111,10 @@ class ForecastWeather extends LitElement {
   }
 
   static  get properties () {
-    return { forecast: { type: Array } };
+    return {
+      forecast: { type: Array },
+      currentWeather: { type: Object }
+    };
   }
 
   constructor () {

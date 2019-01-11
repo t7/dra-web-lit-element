@@ -106,7 +106,7 @@ class MainView extends LitElement {
           </current-weather>
           <div class="main-view__wave">${waveSvg}</div>
         </div>
-        <forecast-weather .forecast="${this.forecast}"></forecast-weather>
+        <forecast-weather .forecast="${this.forecast}" .currentWeather="${this.weather}"></forecast-weather>
         <app-drawer .opened="${this._drawerOpened}"
           @opened-changed="${this._drawerOpenedChanged}"
           align="end"
