@@ -93,7 +93,7 @@ class MainView extends WeatherContainer {
       >
         <div class="main-view__container" style="background-image: url(${this.locationImage});">
           <header class="main-view__header">
-            <button class="main-view__header__button" @click="${this._onMenuClick}">${menuSvg}</button>
+            <button class="main-view__header__button" @click="${this._openMenu}">${menuSvg}</button>
           </header>
           <current-weather
             .weather="${this.weather}"
@@ -116,7 +116,6 @@ class MainView extends WeatherContainer {
 
   static get properties() {
     return {
-      active: { type: Boolean },
       dateTime: { type: String },
       isLoading: {type: Boolean },
       _drawerOpened: { type: Boolean },
@@ -129,10 +128,6 @@ class MainView extends WeatherContainer {
     this.location = {};
     this.forecast = [];
     this.isLoading = false;
-  }
-
-  shouldUpdate(changedProperties) {
-    return this.active;
   }
 
   firstUpdated(changedProperties) {
@@ -170,13 +165,23 @@ class MainView extends WeatherContainer {
     });
   }
 
-  _onMenuClick() {
-    this.dispatchEvent(new CustomEvent('menu-opened'));
+  _openMenu() {
+    this._drawerOpened = true;
+    this.dispatchEvent(new CustomEvent('route-changed', {
+      bubbles: true, composed: true, detail: { route: '/settings' }
+    }));
+  }
+
+  _closeMenu() {
+    this._drawerOpened = false;
+    this.dispatchEvent(new CustomEvent('route-changed', {
+      bubbles: true, composed: true, detail: { route: '/' }
+    }));
   }
 
   _drawerOpenedChanged(e) {
     if (this._drawerOpened && !e.target.opened) {
-      this.dispatchEvent(new CustomEvent('menu-closed'));
+      this._closeMenu();
     }
   }
 }

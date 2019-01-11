@@ -11,16 +11,6 @@ class NotFoundView extends LitElement {
       </section>
     `
   }
-
-  shouldUpdate() {
-    return this.active;
-  }
-
-  static get properties() {
-    return {
-      active: { type: Boolean }
-    }
-  }
 }
 
 window.customElements.define('not-found-view', NotFoundView);

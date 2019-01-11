@@ -3,6 +3,15 @@ import {getCurrentLocation, getImageForLocation, getLocationByZipCode} from "../
 import {getCurrentWeatherForLocation, getForecastForLocation} from "../utils/weather";
 
 export class WeatherContainer extends LitElement {
+  static get properties() {
+    return {
+      weather: { type: Object },
+      forecast: { type: Array },
+      location: { type: Object },
+      locationImage: { type: String}
+    }
+  }
+
   async getLocation() {
     const location = await getCurrentLocation();
     return this.location = location;
@@ -30,15 +39,6 @@ export class WeatherContainer extends LitElement {
 
     if (!(location instanceof Error)) {
       return this.location = location;
-    }
-  }
-
-  static get properties() {
-    return {
-      weather: { type: Object },
-      forecast: { type: Array },
-      location: { type: Object },
-      locationImage: { type: String}
     }
   }
 }
