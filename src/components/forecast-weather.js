@@ -91,7 +91,7 @@ class ForecastWeather extends LitElement {
                   <p class="forecast-weather__period__name">${item.name}</p>
                   <weather-icon class="forecast-weather__period__icon" .icon="${item.icon}">icon</weather-icon>
                   <p>
-                    <span class="forecast-weather__period__temperature forecast-weather__period__temperature--high"><strong>${item.high.temperature}&deg;${item.high.temperatureUnit}</strong></span>
+                    ${item.high && html`<span class="forecast-weather__period__temperature forecast-weather__period__temperature--high"><strong>${item.high.temperature}${item.high.temperatureUnit}</strong></span>`}
                     <span class="forecast-weather__period__temperature forecast-weather__period__temperature--low">${item.low.temperature}&deg;${item.low.temperatureUnit}</span>
                   </p>
                 </li>
