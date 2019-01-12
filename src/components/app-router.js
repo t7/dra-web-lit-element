@@ -77,7 +77,7 @@ class AppRouter extends LitElement {
   _loadPage(view) {
     switch(view) {
       case 'main-view':
-        import('./views/main-view.js')
+        import('./views/main-view.js');
         break;
       case 'not-found-view':
         import('./views/not-found-view.js');

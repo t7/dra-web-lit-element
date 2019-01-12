@@ -101,7 +101,7 @@ class MainView extends WeatherContainer {
             .weather="${this.weather}"
             .location="${this.location}"
             .dateTime="${this.dateTime}"
-          />
+          ></current-weather>
           <div class="main-view__wave">${waveSvg}</div>
         </div>
         <forecast-weather .forecast="${this.forecast}" .currentWeather="${this.weather}"></forecast-weather>
@@ -109,7 +109,7 @@ class MainView extends WeatherContainer {
           @opened-changed="${this._drawerOpenedChanged}"
           align="end"
         >
-          <location-form />
+          <location-form></location-form>
         </app-drawer>
         <loading-spinner .active="${this.isLoading}"/>
       </section>
