@@ -138,6 +138,7 @@ class MainView extends WeatherContainer {
   }
 
   firstUpdated(changedProperties) {
+    this.isLoading = true;
     this.getLocation();
   }
 

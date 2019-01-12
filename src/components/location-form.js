@@ -121,7 +121,7 @@ class LocationForm extends LitElement {
           color: #00adcf;
         }
       </style>
-      <aside class="location-form location-form--opened">
+      <aside class="location-form">
         <button class="location-form__close" @click="${this._onCloseHandler}">${closeButton}</button>
         <form class="location-form__form" @submit="${this._onSubmit}">
           <input class="input location-form__form__input" placeholder="Enter Zip Code" name="zipCode">

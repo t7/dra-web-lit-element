@@ -14,7 +14,7 @@ class AppRouter extends LitElement {
         }
        </style>
     
-      <div className="app-router"
+      <div
         @route-changed=${this._onRouteChange}  
       >   
         ${Object.keys(this.route).map( (key) => {
@@ -42,7 +42,9 @@ class AppRouter extends LitElement {
 
   _onRouteChange(e) {
     const route = e.detail ? e.detail.route : null;
-    this._updateLocation(route);
+    if (route) {
+      this._updateLocation(route);
+    }
   }
 
   _updateLocation(newLocation) {
