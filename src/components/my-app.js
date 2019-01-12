@@ -1,6 +1,4 @@
-import { LitElement, html } from '@polymer/lit-element';
-
-import '@polymer/app-layout/app-drawer/app-drawer.js';
+import { LitElement, html } from 'lit-element';
 import './app-router'
 
 class MyApp extends LitElement {

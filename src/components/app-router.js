@@ -1,4 +1,4 @@
-import { LitElement, html } from '@polymer/lit-element';
+import { LitElement, html } from 'lit-element';
 import {installRouter} from "pwa-helpers/router";
 
 class AppRouter extends LitElement {

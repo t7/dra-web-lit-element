@@ -1,4 +1,4 @@
-import { LitElement } from '@polymer/lit-element';
+import { LitElement } from 'lit-element';
 import {getCurrentLocation, getImageForLocation, getLocationByZipCode} from "../utils/location";
 import {getCurrentWeatherForLocation, getForecastForLocation} from "../utils/weather";
 
