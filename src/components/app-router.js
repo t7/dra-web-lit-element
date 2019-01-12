@@ -3,7 +3,6 @@ import {installRouter} from "pwa-helpers/router";
 
 class AppRouter extends LitElement {
   render(){
-    const appRoute = { ...this.route };
     return html`
       <style>      
         .view {
@@ -18,7 +17,7 @@ class AppRouter extends LitElement {
       <div className="app-router"
         @route-changed=${this._onRouteChange}  
       >   
-        ${Object.keys(appRoute).map( (key) => {
+        ${Object.keys(this.route).map( (key) => {
           return html`<div ?active="${key === this._view}" class="view"><slot name="${key}" /></div>`
         })}
       </div>

@@ -11,13 +11,8 @@ class MyApp extends LitElement {
           "not-found-view": 'default'
         }}"
       >
-        <div slot="main-view">
-          <main-view />    
-        </div>
-        <div slot="not-found-view" >
-          <not-found-view />
-        </div>
-      </app-router>
+        <main-view slot="main-view"></main-view>  
+        <not-found-view slot="not-found-view"></not-found-view>
     </main>
     `;
   }
