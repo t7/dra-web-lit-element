@@ -1,7 +1,8 @@
 // Import the LitElement base class and html helper function
 import {html} from 'lit-element';
-import {menuSvg, waveSvg} from '../svg-image';
+import '@polymer/app-layout/app-drawer/app-drawer.js';
 
+import {menuSvg, waveSvg} from '../svg-image';
 import { WeatherContainer } from '../weather-container.js';
 import '../current-weather.js';
 import '../forecast-weather.js';

@@ -30,7 +30,7 @@ class ForecastWeather extends LitElement {
           margin: 0 auto;
           max-width: 65rem;
           text-align: center;
-          overflow-x: scroll;
+          overflow: auto;
         }
         
         .forecast-weather {
