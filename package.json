@@ -4,7 +4,7 @@
   "repository": "Polymer/pwa-starter-kit",
   "scripts": {
     "start": "npm run serve | npm run watch",
-    "serve": "polymer serve --port 8080 | polymer serve --compile always --port 8081",
+    "serve": "polymer serve --port 8080",
     "watch": "browser-sync start --proxy localhost:8080 --open --files \"src/**/*.js\"",
     "build": "polymer build",
     "serve:static": "polymer serve --port 5000 build/es5-bundled"
