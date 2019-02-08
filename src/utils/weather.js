@@ -11,6 +11,10 @@ export const getCurrentWeatherForLocation = async ({ latitude, longitude }) => {
   );
   const json = await pointsResponse.json();
 
+  if (!json.properties) {
+    return new Error(json.title || 'An error has occurred');
+  }
+
   const {
     properties: {
       periods: [period],
@@ -33,6 +37,10 @@ export const getForecastForLocation = async ({ latitude, longitude }) => {
     }/points/${latitude},${longitude}/forecast`,
   );
   const json = await pointsResponse.json();
+
+  if (!json.properties) {
+    return new Error(json.title || 'An error has occurred');
+  }
 
   const {
     properties: { periods = [] },

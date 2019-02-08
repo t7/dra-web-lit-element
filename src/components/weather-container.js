@@ -24,12 +24,22 @@ export class WeatherContainer extends LitElement {
 
   async getCurrentWeather() {
     const weather =  await getCurrentWeatherForLocation(this.location);
-    return this.weather = weather;
+
+    if (weather instanceof Error) {
+      alert(weather);
+    } else {
+      return this.weather = weather;
+    }
   }
 
   async getForecast() {
     const forecast =  await getForecastForLocation(this.location);
-    return this.forecast = forecast;
+
+    if (forecast instanceof Error) {
+      alert(forecast);
+    } else {
+      return this.forecast = forecast;
+    }
   }
 
   async updateLocation(e) {
@@ -37,10 +47,10 @@ export class WeatherContainer extends LitElement {
     const locationPromise = zipCode ? getLocationByZipCode(zipCode) : getCurrentLocation();
     const location = await locationPromise;
 
-    if (!(location instanceof Error)) {
-      return this.location = location;
-    } else {
+    if (location instanceof Error) {
       alert(location);
+    } else {
+      return this.location = location;
     }
   }
 }
