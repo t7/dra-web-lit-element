@@ -35,7 +35,7 @@ class MainView extends WeatherContainer {
           background-position: center;
           background-repeat: no-repeat;
           background-size: cover;
-          padding: 4em 6em;
+          padding: 4em 4em;
           position: relative;
         }
         
@@ -84,7 +84,16 @@ class MainView extends WeatherContainer {
         app-drawer {
            z-index: 2;
           --app-drawer-scrim-background: rgba(0, 0, 0, 0);
-          --app-drawer-width: 500px
+        }
+        
+        @media only screen and (min-width: 420px) {
+          .main-view__weather-container {
+            padding: 4em 6em;
+          }
+          
+          app-drawer {
+            --app-drawer-width: 420px
+          }
         }
       </style>
       <!-- template content -->
