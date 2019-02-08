@@ -1,0 +1,50 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    environment:
+      DRA_BUILD_DIR: build/es5-bundled # Your build output directory.
+      DRA_BUCKET_NAME: dra-web-lit-element # Your S3 bucket name.
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:8.9.1
+    steps:
+      - checkout
+
+      # Restore dependency cache from previous build!
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+
+      # Install dependencies!
+      - run:
+          name: Install Dependencies
+          command: npm install
+
+      # Cache dependencies for subsequent builds!
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      # Build assets!
+      - run:
+          name: Build Assets
+          command: npm run build
+
+      # Deploy to S3!
+      - run:
+          name: Deploy to S3
+          command: |
+            if [ "${CIRCLE_BRANCH}" = "master" ]; then
+              sudo apt-get update && sudo apt-get install -y python-dev
+              sudo curl -O https://bootstrap.pypa.io/get-pip.py
+              sudo python get-pip.py
+              sudo pip install awscli --upgrade
+              aws --version
+              aws s3 sync $DRA_BUILD_DIR s3://$DRA_BUCKET_NAME --delete --acl public-read
+            fi
