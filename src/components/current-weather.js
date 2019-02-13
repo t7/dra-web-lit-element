@@ -125,7 +125,7 @@ class CurrentWeather extends LitElement {
           </div>
           <span class="current-weather__temperature">
             <weather-icon class="current-weather__temperature__icon" .icon="${icon}">*</weather-icon>
-            <span class="current-weather__temperature__value">
+            <span ?hidden="${!temperature}" class="current-weather__temperature__value">
               ${temperature}<sup class="current-weather__temperature__symbol">&deg;${temperatureUnit}</sup>
             </span>
           </span>

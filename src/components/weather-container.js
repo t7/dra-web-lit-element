@@ -26,7 +26,9 @@ export class WeatherContainer extends LitElement {
     const weather =  await getCurrentWeatherForLocation(this.location);
 
     if (weather instanceof Error) {
-      alert(weather);
+      this.weather = {
+        shortForecast: `Unable to request weather forecast in ${this.location.city}`
+      }
     } else {
       return this.weather = weather;
     }
@@ -36,7 +38,7 @@ export class WeatherContainer extends LitElement {
     const forecast =  await getForecastForLocation(this.location);
 
     if (forecast instanceof Error) {
-      alert(forecast);
+      this.forecast = [];
     } else {
       return this.forecast = forecast;
     }
